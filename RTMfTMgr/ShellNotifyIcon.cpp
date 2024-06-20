@@ -1,0 +1,1 @@
+#include "ShellNotifyIcon.h"
