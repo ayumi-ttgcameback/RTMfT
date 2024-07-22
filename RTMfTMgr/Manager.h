@@ -290,7 +290,6 @@ public:
 		AttachOrDetachAllProcessByNameBaseClass(const wchar_t* target, Manager* pMgr) :TargetProcessCountByName(target) 
 		{
 			m_pMgr = pMgr;
-			Exec();
 		}
 		virtual bool PreCallback() override
 		{
@@ -310,6 +309,7 @@ public:
 		public:
 		AttachAllProcessByName(const wchar_t* target, Manager* pMgr) :AttachOrDetachAllProcessByNameBaseClass(target, pMgr) 
 		{
+			Exec();
 		}
 		virtual bool Callback(DWORD dwPid) override {
 			if (m_pMgr->AttachByPID(dwPid) == true) {
@@ -319,18 +319,18 @@ public:
 		}
 	};
 	class DetachAllProcessByName :public AttachOrDetachAllProcessByNameBaseClass {
-
 	public:
 		DetachAllProcessByName(const wchar_t* target, Manager* pMgr) :AttachOrDetachAllProcessByNameBaseClass(target, pMgr) 
 		{
+			Exec();
 		}
 		virtual bool Callback(DWORD dwPid) override {
 			if (m_pMgr->DetachByPID(dwPid) == true) {
 				m_iCount++;
 			}
 			return true;
-		}	};
-
+		}
+	};
 	bool Attach()
 	{
 		int ret = AttachAllProcessByName(m_wszSearchTargetName, this).GetCount();
